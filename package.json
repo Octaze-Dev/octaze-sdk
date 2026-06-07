@@ -1,6 +1,6 @@
 {
   "name": "@octaze/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Octaze SDK — drive Solana virtual testnets (fork, fund, simulate, send, trace) from code & CI.",
   "license": "MIT",
   "type": "module",
