@@ -117,6 +117,20 @@ export class Octaze {
       this.req<SimulateResult>("POST", `/testnets/${testnetId}/simulate`, { transaction }),
     send: (testnetId: string, transaction: string) =>
       this.req<{ signature: string }>("POST", `/testnets/${testnetId}/send`, { transaction }),
+    /**
+     * Send an UNSIGNED transaction, impersonating any `from` — no private key.
+     * The fork accepts it via skipSigVerify (isolated to this testnet, never
+     * mainnet). Build a fully-formed transaction message with the impersonated
+     * fee payer + accounts, serialize it WITHOUT signatures, pass the base64.
+     *
+     * @example
+     * const { signature } = await octaze.tx.sendImpersonated(net.id, unsignedBase64);
+     */
+    sendImpersonated: (testnetId: string, transaction: string) =>
+      this.req<{ signature: string }>("POST", `/testnets/${testnetId}/send`, {
+        transaction,
+        skipSigVerify: true,
+      }),
     list: (testnetId: string) =>
       this.req<{ transactions: TxRecord[] }>("GET", `/testnets/${testnetId}/transactions`).then((r) => r.transactions),
     trace: (testnetId: string, signature: string) =>
